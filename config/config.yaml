@@ -1,0 +1,15 @@
+# Project configuration placeholder for Milestone 0A.
+# Functional configuration will be added when implementation begins.
+
+project:
+  name: online-harassment-detection
+  task_type: multi-label-classification
+
+labels:
+  - toxic
+  - severe_toxic
+  - obscene
+  - threat
+  - insult
+  - identity_hate
+
