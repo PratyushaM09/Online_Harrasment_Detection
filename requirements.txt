@@ -1,5 +1,6 @@
-# Milestone 0B keeps dependencies minimal.
+# Milestone 1A keeps dependencies focused on configuration, testing, and CSV loading.
 # Runtime ML/UI dependencies will be added incrementally when implemented.
 
+pandas
 PyYAML
 pytest

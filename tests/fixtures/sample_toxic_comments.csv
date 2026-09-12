@@ -1,0 +1,5 @@
+id,comment_text,toxic,severe_toxic,obscene,threat,insult,identity_hate
+1,"Thank you for the helpful explanation.",0,0,0,0,0,0
+2,"You are awful and should stop posting here.",1,0,0,0,1,0
+3,"This is a normal follow-up question.",0,0,0,0,0,0
+

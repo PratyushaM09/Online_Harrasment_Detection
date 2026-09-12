@@ -33,9 +33,25 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 0B: Configuration and reproducibility foundation.
+Milestone 1A: Dataset acquisition and validation foundation.
 
-The project currently contains the minimal repository structure, centralized configuration loading, and a standard-library seed utility. Data processing, model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, and a small dataset validation layer. Data preprocessing, model training, inference, explainability, and UI functionality are not implemented yet.
+
+## Dataset Setup
+
+This project is planned to use the Jigsaw Toxic Comment Classification Challenge dataset from Kaggle:
+
+```text
+https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge
+```
+
+The project does not redistribute the dataset. Download the dataset manually from Kaggle and place the training file here:
+
+```text
+data/raw/train.csv
+```
+
+The expected file is `train.csv`. The `data/raw/` directory is ignored by Git so the real dataset is not committed.
 
 ## Local Environment Setup
 
@@ -49,5 +65,6 @@ python -m venv .venv
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python app.py
-pytest
+python -m pytest
+python scripts/check_dataset.py
 ```
