@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 0A: Python repository foundation.
+Milestone 0B: Configuration and reproducibility foundation.
 
-The project currently contains only the minimal repository structure needed for local Python development and testing. Data processing, model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, and a standard-library seed utility. Data processing, model training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Local Environment Setup
 
@@ -51,4 +51,3 @@ python -m pip install -r requirements.txt
 python app.py
 pytest
 ```
-

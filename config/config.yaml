@@ -1,9 +1,6 @@
-# Project configuration placeholder for Milestone 0A.
-# Functional configuration will be added when implementation begins.
-
 project:
-  name: online-harassment-detection
-  task_type: multi-label-classification
+  name: "Deep Learning Model for Online Harassment Detection"
+  random_seed: 42
 
 labels:
   - toxic
@@ -13,3 +10,8 @@ labels:
   - insult
   - identity_hate
 
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  models: "models"
+  checkpoints: "checkpoints"

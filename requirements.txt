@@ -1,5 +1,5 @@
-# Milestone 0A keeps dependencies minimal.
+# Milestone 0B keeps dependencies minimal.
 # Runtime ML/UI dependencies will be added incrementally when implemented.
 
+PyYAML
 pytest
-
