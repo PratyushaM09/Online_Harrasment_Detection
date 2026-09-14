@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 1A: Dataset acquisition and validation foundation.
+Milestone 1C: Reproducible multi-label train/validation/test splitting.
 
-The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, and a small dataset validation layer. Data preprocessing, model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, and deterministic multi-label splitting. Data preprocessing, model training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Dataset Setup
 
@@ -59,6 +59,18 @@ The dataset analysis layer reports early evidence about the training data before
 
 These statistics are intended to inform later decisions such as threshold tuning, class weighting, sampling, or loss-function changes. No balancing strategy is implemented yet.
 
+## Dataset Splitting
+
+The configured dataset split is:
+
+- 80% training
+- 10% validation
+- 10% test
+
+The splitter uses iterative multi-label stratification because the Jigsaw dataset can assign multiple toxicity labels to the same comment and contains severe class imbalance, including rare categories such as `threat`.
+
+The splitter attempts to preserve each toxicity label's frequency across training, validation, and test partitions. It does not claim perfect equality between partitions, and it does not balance, preprocess, or modify comment text.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -74,4 +86,6 @@ python app.py
 python -m pytest
 python scripts/check_dataset.py
 python scripts/analyze_dataset.py
+python scripts/split_dataset.py
+python scripts/split_dataset.py --save
 ```

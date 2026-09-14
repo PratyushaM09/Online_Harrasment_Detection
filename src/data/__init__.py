@@ -15,6 +15,13 @@ from src.data.analysis import (
     calculate_label_cooccurrence,
     summarize_comment_labels,
 )
+from src.data.splitter import (
+    compare_label_distributions,
+    save_split_partitions,
+    split_dataset,
+    validate_partition_integrity,
+    validate_split_ratios,
+)
 
 __all__ = [
     "EXPECTED_COLUMNS",
@@ -24,9 +31,14 @@ __all__ = [
     "analyze_label_distribution",
     "analyze_text_quality",
     "calculate_label_cooccurrence",
+    "compare_label_distributions",
     "get_dataset_metadata",
     "get_training_data_path",
     "load_training_data",
+    "save_split_partitions",
+    "split_dataset",
     "summarize_comment_labels",
+    "validate_partition_integrity",
     "validate_required_columns",
+    "validate_split_ratios",
 ]

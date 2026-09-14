@@ -1,6 +1,7 @@
-# Milestone 1A keeps dependencies focused on configuration, testing, and CSV loading.
+# Milestone 1C keeps dependencies focused on configuration, testing, CSV loading, and splitting.
 # Runtime ML/UI dependencies will be added incrementally when implemented.
 
+iterative-stratification
 pandas
 PyYAML
 pytest

@@ -10,6 +10,11 @@ labels:
   - insult
   - identity_hate
 
+dataset:
+  train_ratio: 0.80
+  validation_ratio: 0.10
+  test_ratio: 0.10
+
 paths:
   raw_data: "data/raw"
   processed_data: "data/processed"

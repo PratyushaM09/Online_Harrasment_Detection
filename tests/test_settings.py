@@ -10,6 +10,9 @@ def test_valid_config_loads_successfully():
 
     assert config.project.name == "Deep Learning Model for Online Harassment Detection"
     assert config.project.random_seed == 42
+    assert config.dataset.train_ratio == 0.80
+    assert config.dataset.validation_ratio == 0.10
+    assert config.dataset.test_ratio == 0.10
     assert config.labels == (
         "toxic",
         "severe_toxic",
@@ -34,3 +37,33 @@ def test_invalid_yaml_raises_clear_error(tmp_path):
     with pytest.raises(ValueError, match="Invalid YAML configuration"):
         load_config(Path(invalid_config))
 
+
+def test_invalid_split_ratios_raise_clear_error(tmp_path):
+    invalid_config = tmp_path / "invalid_split_ratios.yaml"
+    invalid_config.write_text(
+        """
+project:
+  name: "Deep Learning Model for Online Harassment Detection"
+  random_seed: 42
+labels:
+  - toxic
+  - severe_toxic
+  - obscene
+  - threat
+  - insult
+  - identity_hate
+dataset:
+  train_ratio: 0.70
+  validation_ratio: 0.20
+  test_ratio: 0.20
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  models: "models"
+  checkpoints: "checkpoints"
+""".strip(),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="Dataset split ratios must sum to 1.0"):
+        load_config(invalid_config)
