@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 1C: Reproducible multi-label train/validation/test splitting.
+Milestone 2A: Conservative text preprocessing foundation.
 
-The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, and deterministic multi-label splitting. Data preprocessing, model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, and conservative text normalization. Model training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Dataset Setup
 
@@ -71,6 +71,14 @@ The splitter uses iterative multi-label stratification because the Jigsaw datase
 
 The splitter attempts to preserve each toxicity label's frequency across training, validation, and test partitions. It does not claim perfect equality between partitions, and it does not balance, preprocess, or modify comment text.
 
+## Text Preprocessing
+
+Preprocessing is intentionally conservative. The original text is preserved separately from normalized text, and each change records a deterministic normalization event.
+
+Current normalization preserves Unicode, punctuation, casing, emoji, slang, obfuscated words, hashtags, repeated letters, profanity, and non-Latin scripts. URLs are replaced with `<URL>`, and simple social-media mentions are replaced with `<USER>`.
+
+Slang normalization is intentionally deferred to a later milestone.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -88,4 +96,5 @@ python scripts/check_dataset.py
 python scripts/analyze_dataset.py
 python scripts/split_dataset.py
 python scripts/split_dataset.py --save
+python scripts/check_preprocessing.py
 ```
