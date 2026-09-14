@@ -53,6 +53,12 @@ data/raw/train.csv
 
 The expected file is `train.csv`. The `data/raw/` directory is ignored by Git so the real dataset is not committed.
 
+## Dataset Analysis
+
+The dataset analysis layer reports early evidence about the training data before preprocessing or modeling. It examines class imbalance, positive-label frequency, multi-label co-occurrence, empty or missing text, and the number of toxicity labels assigned per comment.
+
+These statistics are intended to inform later decisions such as threshold tuning, class weighting, sampling, or loss-function changes. No balancing strategy is implemented yet.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -67,4 +73,5 @@ python -m pip install -r requirements.txt
 python app.py
 python -m pytest
 python scripts/check_dataset.py
+python scripts/analyze_dataset.py
 ```
