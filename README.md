@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 2A: Conservative text preprocessing foundation.
+Milestone 2B: Slang and obfuscation detection foundation.
 
-The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, and conservative text normalization. Model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, and metadata-only slang/obfuscation detection. Model training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Dataset Setup
 
@@ -79,6 +79,12 @@ Current normalization preserves Unicode, punctuation, casing, emoji, slang, obfu
 
 Slang normalization is intentionally deferred to a later milestone.
 
+## Slang and Obfuscation Detection
+
+The project includes a small detection layer for curated slang and explicit obfuscated terms. Detected expressions are returned as metadata with the original surface form, canonical meaning, kind, and character offsets.
+
+Detection does not automatically rewrite text and does not make toxicity decisions. Keeping detection separate from classification helps reduce false positives later, because terms such as `unalive` may appear in benign or quoted contexts.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -97,4 +103,5 @@ python scripts/analyze_dataset.py
 python scripts/split_dataset.py
 python scripts/split_dataset.py --save
 python scripts/check_preprocessing.py
+python scripts/check_slang_detection.py
 ```
