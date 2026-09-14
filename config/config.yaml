@@ -15,6 +15,12 @@ dataset:
   validation_ratio: 0.10
   test_ratio: 0.10
 
+model:
+  name: "xlm-roberta-base"
+
+tokenization:
+  max_length: 128
+
 paths:
   raw_data: "data/raw"
   processed_data: "data/processed"

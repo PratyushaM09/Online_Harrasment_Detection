@@ -38,12 +38,28 @@ class DatasetConfig:
 
 
 @dataclass(frozen=True)
+class ModelConfig:
+    """Transformer model configuration values."""
+
+    name: str
+
+
+@dataclass(frozen=True)
+class TokenizationConfig:
+    """Tokenizer configuration values."""
+
+    max_length: int
+
+
+@dataclass(frozen=True)
 class AppConfig:
     """Structured application configuration."""
 
     project: ProjectConfig
     labels: tuple[str, ...]
     dataset: DatasetConfig
+    model: ModelConfig
+    tokenization: TokenizationConfig
     paths: PathsConfig
 
 
@@ -70,6 +86,8 @@ def _parse_config(raw_config: dict[str, Any], path: Path) -> AppConfig:
     project = raw_config.get("project")
     labels = raw_config.get("labels")
     dataset = raw_config.get("dataset")
+    model = raw_config.get("model")
+    tokenization = raw_config.get("tokenization")
     paths = raw_config.get("paths")
 
     if not isinstance(project, dict):
@@ -78,6 +96,10 @@ def _parse_config(raw_config: dict[str, Any], path: Path) -> AppConfig:
         raise ValueError(f"Missing or invalid 'labels' section in {path}")
     if not isinstance(dataset, dict):
         raise ValueError(f"Missing or invalid 'dataset' section in {path}")
+    if not isinstance(model, dict):
+        raise ValueError(f"Missing or invalid 'model' section in {path}")
+    if not isinstance(tokenization, dict):
+        raise ValueError(f"Missing or invalid 'tokenization' section in {path}")
     if not isinstance(paths, dict):
         raise ValueError(f"Missing or invalid 'paths' section in {path}")
 
@@ -88,6 +110,10 @@ def _parse_config(raw_config: dict[str, Any], path: Path) -> AppConfig:
             test_ratio=float(dataset["test_ratio"]),
         )
         _validate_split_ratios(dataset_config, path)
+        tokenization_config = TokenizationConfig(
+            max_length=int(tokenization["max_length"]),
+        )
+        _validate_tokenization_config(tokenization_config, path)
 
         return AppConfig(
             project=ProjectConfig(
@@ -96,6 +122,8 @@ def _parse_config(raw_config: dict[str, Any], path: Path) -> AppConfig:
             ),
             labels=tuple(str(label) for label in labels),
             dataset=dataset_config,
+            model=ModelConfig(name=str(model["name"])),
+            tokenization=tokenization_config,
             paths=PathsConfig(
                 raw_data=str(paths["raw_data"]),
                 processed_data=str(paths["processed_data"]),
@@ -124,3 +152,11 @@ def _validate_split_ratios(dataset_config: DatasetConfig, path: Path) -> None:
             f"validation={dataset_config.validation_ratio}, "
             f"test={dataset_config.test_ratio}"
         )
+
+
+def _validate_tokenization_config(
+    tokenization_config: TokenizationConfig,
+    path: Path,
+) -> None:
+    if tokenization_config.max_length <= 0:
+        raise ValueError(f"Tokenization max_length must be greater than 0 in {path}")

@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 2B: Slang and obfuscation detection foundation.
+Milestone 3A: Transformer tokenization foundation.
 
-The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, and metadata-only slang/obfuscation detection. Model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, metadata-only slang/obfuscation detection, and Hugging Face tokenization helpers. Model training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Dataset Setup
 
@@ -85,6 +85,14 @@ The project includes a small detection layer for curated slang and explicit obfu
 
 Detection does not automatically rewrite text and does not make toxicity decisions. Keeping detection separate from classification helps reduce false positives later, because terms such as `unalive` may appear in benign or quoted contexts.
 
+## Transformer Tokenization
+
+The project now uses the XLM-RoBERTa tokenizer for `xlm-roberta-base`. Tokenization converts text into transformer-ready `input_ids` and `attention_mask` values.
+
+The current `max_length=128` setting is an initial engineering choice for experimentation, not a proven optimal value. Sequence lengths will be analyzed later before final training.
+
+The same tokenizer handles multilingual text and noisy social-media text, including preserved casing, punctuation, emoji, slang, and obfuscation. Tokenization is not model training.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -104,4 +112,5 @@ python scripts/split_dataset.py
 python scripts/split_dataset.py --save
 python scripts/check_preprocessing.py
 python scripts/check_slang_detection.py
+python scripts/check_tokenization.py
 ```
