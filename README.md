@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 3B: Sequence length analysis and tokenization pipeline.
+Milestone 4A: Classical baseline model.
 
-The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, metadata-only slang/obfuscation detection, Hugging Face tokenization helpers, token length analysis, and a DataFrame tokenization pipeline. Model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, metadata-only slang/obfuscation detection, Hugging Face tokenization helpers, token length analysis, a DataFrame tokenization pipeline, and a classical TF-IDF + logistic regression baseline. Transformer model training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Dataset Setup
 
@@ -103,6 +103,12 @@ Some extremely long comments still exceed the model's normal context window and 
 
 The tokenization pipeline converts DataFrame text into `input_ids` and `attention_mask` columns, preserves row order, and keeps the six multi-label targets when they are present. The caller must choose the text column, such as `comment_text` or `normalized_text`; slang is not automatically normalized before tokenization.
 
+## Classical Baseline
+
+The project includes a classical baseline using TF-IDF features with one-vs-rest logistic regression. Each of the six toxicity labels is handled independently as a multi-label classification target.
+
+This baseline exists for comparison against the future XLM-R system. TF-IDF vocabulary fitting happens only on the training split; validation and test text are transformed with the fitted vectorizer and are never used to fit the vocabulary. Threshold tuning is not applied yet, so predictions use the explicit default threshold of `0.5`.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -124,4 +130,5 @@ python scripts/check_preprocessing.py
 python scripts/check_slang_detection.py
 python scripts/check_tokenization.py
 python scripts/analyze_token_lengths.py --sample-size 5000
+python scripts/train_baseline.py --sample-size 20000
 ```

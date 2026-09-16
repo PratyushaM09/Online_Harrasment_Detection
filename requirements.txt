@@ -1,9 +1,11 @@
-# Milestone 3A adds Hugging Face tokenizer support without the training stack.
+# Milestone 4A adds a classical TF-IDF + logistic regression baseline.
 # Runtime ML/UI dependencies will be added incrementally when implemented.
 
 iterative-stratification
+joblib
 pandas
 PyYAML
 pytest
+scikit-learn
 sentencepiece
 transformers
