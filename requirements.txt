@@ -1,4 +1,4 @@
-# Milestone 4A adds a classical TF-IDF + logistic regression baseline.
+# Milestone 5A adds the PyTorch/Hugging Face model foundation.
 # Runtime ML/UI dependencies will be added incrementally when implemented.
 
 iterative-stratification
@@ -8,4 +8,5 @@ PyYAML
 pytest
 scikit-learn
 sentencepiece
+torch
 transformers

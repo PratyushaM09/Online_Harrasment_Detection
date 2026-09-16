@@ -115,6 +115,30 @@ Baseline evaluation runs separately on validation and test splits using the fixe
 
 Accuracy is not emphasized because the toxicity labels are severely imbalanced, especially rare labels such as `threat`, `severe_toxic`, and `identity_hate`. ROC-AUC is reported together with average precision because strong ROC-AUC alone may hide poor rare-label moderation behavior. Threshold tuning is intentionally deferred and must use validation data only.
 
+## XLM-R Model Architecture
+
+The transformer model foundation is:
+
+```text
+Text
+  ↓
+XLM-R tokenizer
+  ↓
+XLM-RoBERTa base encoder
+  ↓
+6-output classification head
+  ↓
+6 logits
+  ↓
+sigmoid
+  ↓
+six independent probabilities
+```
+
+This is multi-label classification, so softmax is not used across the six labels. Training will use BCE-with-logits semantics: raw logits go into the training loss, while inference probabilities are produced with `sigmoid(logits)`.
+
+The XLM-R classification head is not fine-tuned yet. The classical baseline remains the current comparison point until transformer training is implemented.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -138,4 +162,5 @@ python scripts/check_tokenization.py
 python scripts/analyze_token_lengths.py --sample-size 5000
 python scripts/train_baseline.py --sample-size 20000
 python scripts/evaluate_baseline.py
+python scripts/check_model.py
 ```
