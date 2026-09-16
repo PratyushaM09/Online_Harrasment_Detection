@@ -9,6 +9,6 @@ data/raw/
 data/processed/
 models/
 checkpoints/
+artifacts/
 *.pt
 *.pth
-

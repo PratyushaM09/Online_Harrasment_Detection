@@ -109,6 +109,12 @@ The project includes a classical baseline using TF-IDF features with one-vs-rest
 
 This baseline exists for comparison against the future XLM-R system. TF-IDF vocabulary fitting happens only on the training split; validation and test text are transformed with the fitted vectorizer and are never used to fit the vocabulary. Threshold tuning is not applied yet, so predictions use the explicit default threshold of `0.5`.
 
+## Baseline Evaluation
+
+Baseline evaluation runs separately on validation and test splits using the fixed threshold of `0.5`. It reports precision, recall, F1, ROC-AUC, average precision, per-label confusion matrices, and false-positive/false-negative counts.
+
+Accuracy is not emphasized because the toxicity labels are severely imbalanced, especially rare labels such as `threat`, `severe_toxic`, and `identity_hate`. ROC-AUC is reported together with average precision because strong ROC-AUC alone may hide poor rare-label moderation behavior. Threshold tuning is intentionally deferred and must use validation data only.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -131,4 +137,5 @@ python scripts/check_slang_detection.py
 python scripts/check_tokenization.py
 python scripts/analyze_token_lengths.py --sample-size 5000
 python scripts/train_baseline.py --sample-size 20000
+python scripts/evaluate_baseline.py
 ```
