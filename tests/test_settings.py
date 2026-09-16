@@ -14,7 +14,7 @@ def test_valid_config_loads_successfully():
     assert config.dataset.validation_ratio == 0.10
     assert config.dataset.test_ratio == 0.10
     assert config.model.name == "xlm-roberta-base"
-    assert config.tokenization.max_length == 128
+    assert config.tokenization.max_length == 256
     assert config.labels == (
         "toxic",
         "severe_toxic",
@@ -61,7 +61,7 @@ dataset:
 model:
   name: "xlm-roberta-base"
 tokenization:
-  max_length: 128
+  max_length: 256
 paths:
   raw_data: "data/raw"
   processed_data: "data/processed"

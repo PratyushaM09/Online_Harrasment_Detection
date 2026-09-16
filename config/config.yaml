@@ -19,7 +19,7 @@ model:
   name: "xlm-roberta-base"
 
 tokenization:
-  max_length: 128
+  max_length: 256
 
 paths:
   raw_data: "data/raw"

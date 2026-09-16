@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 3A: Transformer tokenization foundation.
+Milestone 3B: Sequence length analysis and tokenization pipeline.
 
-The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, metadata-only slang/obfuscation detection, and Hugging Face tokenization helpers. Model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, metadata-only slang/obfuscation detection, Hugging Face tokenization helpers, token length analysis, and a DataFrame tokenization pipeline. Model training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Dataset Setup
 
@@ -89,9 +89,19 @@ Detection does not automatically rewrite text and does not make toxicity decisio
 
 The project now uses the XLM-RoBERTa tokenizer for `xlm-roberta-base`. Tokenization converts text into transformer-ready `input_ids` and `attention_mask` values.
 
-The current `max_length=128` setting is an initial engineering choice for experimentation, not a proven optimal value. Sequence lengths will be analyzed later before final training.
+The current `max_length=256` setting was selected from measured XLM-R token-length statistics as an engineering trade-off for training, not as a mathematically optimal value.
 
 The same tokenizer handles multilingual text and noisy social-media text, including preserved casing, punctuation, emoji, slang, and obfuscation. Tokenization is not model training.
+
+## Token Length Analysis
+
+The project can measure tokenized sequence lengths without padding or truncation, including tokenizer-added special tokens. It compares candidate limits of 64, 128, 256, and 512 tokens to estimate how many comments would be truncated.
+
+The configured `max_length=256` is based on full training-split token-length analysis. A limit of 128 tokens would truncate approximately 20.87% of training comments, while 256 tokens reduces truncation to approximately 7.76%. A limit of 512 tokens reduces truncation further, but with significantly greater memory and compute cost.
+
+Some extremely long comments still exceed the model's normal context window and may require chunking in future work.
+
+The tokenization pipeline converts DataFrame text into `input_ids` and `attention_mask` columns, preserves row order, and keeps the six multi-label targets when they are present. The caller must choose the text column, such as `comment_text` or `normalized_text`; slang is not automatically normalized before tokenization.
 
 ## Local Environment Setup
 
@@ -113,4 +123,5 @@ python scripts/split_dataset.py --save
 python scripts/check_preprocessing.py
 python scripts/check_slang_detection.py
 python scripts/check_tokenization.py
+python scripts/analyze_token_lengths.py --sample-size 5000
 ```
