@@ -139,6 +139,24 @@ This is multi-label classification, so softmax is not used across the six labels
 
 The XLM-R classification head is not fine-tuned yet. The classical baseline remains the current comparison point until transformer training is implemented.
 
+## Training Data Pipeline
+
+The transformer training data pipeline is:
+
+```text
+processed CSV
+  ↓
+PyTorch Dataset
+  ↓
+XLM-R tokenizer
+  ↓
+fixed-length tensors
+  ↓
+DataLoader
+```
+
+Each item contains `input_ids` and `attention_mask` tensors of length `256`, plus a floating-point label tensor of shape `[6]` in the configured label order. Data loading is separate from model training, and tensors are not moved to GPU in the Dataset or DataLoader. Train loaders may shuffle; validation and test loaders do not.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -163,4 +181,5 @@ python scripts/analyze_token_lengths.py --sample-size 5000
 python scripts/train_baseline.py --sample-size 20000
 python scripts/evaluate_baseline.py
 python scripts/check_model.py
+python scripts/check_dataloader.py
 ```
