@@ -21,6 +21,17 @@ model:
 tokenization:
   max_length: 256
 
+training:
+  # Milestone 6A smoke-test settings only; not final hyperparameters.
+  learning_rate: 0.00002
+  weight_decay: 0.01
+  epochs: 1
+  batch_size: 8
+  gradient_accumulation_steps: 1
+  train_sample_size: 10000
+  validation_sample_size: 2000
+  default_threshold: 0.5
+
 paths:
   raw_data: "data/raw"
   processed_data: "data/processed"

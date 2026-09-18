@@ -33,9 +33,9 @@ This project is planned as a multi-label classification task, where one text sam
 
 ## Current Status
 
-Milestone 4A: Classical baseline model.
+Milestone 6A: Small XLM-R smoke fine-tuning experiment.
 
-The project currently contains the minimal repository structure, centralized configuration loading, a standard-library seed utility, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, metadata-only slang/obfuscation detection, Hugging Face tokenization helpers, token length analysis, a DataFrame tokenization pipeline, and a classical TF-IDF + logistic regression baseline. Transformer model training, inference, explainability, and UI functionality are not implemented yet.
+The project currently contains the repository foundation, centralized configuration loading, reproducibility utilities, dataset validation and analysis helpers, deterministic multi-label splitting, conservative text normalization, metadata-only slang/obfuscation detection, Hugging Face tokenization helpers, token length analysis, a DataFrame tokenization pipeline, a classical TF-IDF + logistic regression baseline, baseline evaluation, the XLM-R model foundation, transformer Dataset/DataLoader helpers, and a small XLM-R smoke-training loop. Full transformer training, inference, explainability, and UI functionality are not implemented yet.
 
 ## Dataset Setup
 
@@ -157,6 +157,43 @@ DataLoader
 
 Each item contains `input_ids` and `attention_mask` tensors of length `256`, plus a floating-point label tensor of shape `[6]` in the configured label order. Data loading is separate from model training, and tensors are not moved to GPU in the Dataset or DataLoader. Train loaders may shuffle; validation and test loaders do not.
 
+## XLM-R Smoke Training
+
+Milestone 6A adds a small fine-tuning smoke experiment to validate the end-to-end transformer training pipeline. It uses 10,000 training rows, 2,000 validation rows, one epoch, AdamW, BCE-with-logits semantics, and the fixed default threshold of `0.5`.
+
+These settings are smoke-test settings, not final hyperparameters, and the resulting metrics are not final model results. The purpose is to confirm that processed data, Dataset, DataLoader, XLM-R, optimizer, backpropagation, validation, and checkpoint persistence work together.
+
+The test split remains untouched during this experiment. Final training and test-set evaluation will happen only after the pipeline is stable. GPU kernels and hardware may still introduce some nondeterminism even when project seeds are set.
+
+Checkpoint persistence is optional:
+
+```powershell
+python scripts/train_xlmr_smoke.py
+python scripts/train_xlmr_smoke.py --save
+python scripts/train_xlmr_smoke.py --save --overwrite
+```
+
+Saved smoke checkpoints go under:
+
+```text
+models/xlmr/smoke-test/
+```
+
+Model files and checkpoints are ignored by Git.
+
+## Colab Smoke-Training Workflow
+
+The smoke experiment is intended to run on a GPU runtime in Google Colab:
+
+1. Open Google Colab.
+2. Select Runtime -> Change runtime type -> GPU.
+3. Clone the GitHub repository.
+4. Install project requirements with `python -m pip install -r requirements.txt`.
+5. Provide the processed `train.csv` and `validation.csv` files under `data/processed/`.
+6. Run `python scripts/train_xlmr_smoke.py --save`.
+
+The repository does not contain the large Jigsaw CSV files. In Colab, upload the required processed CSVs into the session or mount Google Drive and copy them into the expected local project directories. Do not commit datasets, checkpoint weights, Kaggle credentials, or other secrets to GitHub.
+
 ## Local Environment Setup
 
 Target environment: Python 3.12 on Windows with VS Code.
@@ -182,4 +219,5 @@ python scripts/train_baseline.py --sample-size 20000
 python scripts/evaluate_baseline.py
 python scripts/check_model.py
 python scripts/check_dataloader.py
+python scripts/train_xlmr_smoke.py
 ```

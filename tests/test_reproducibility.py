@@ -1,5 +1,7 @@
 import random
 
+import torch
+
 from src.utils import set_seed
 
 
@@ -11,3 +13,13 @@ def test_set_seed_repeats_standard_library_random_sequence():
     second_sequence = [random.random() for _ in range(5)]
 
     assert first_sequence == second_sequence
+
+
+def test_set_seed_repeats_torch_cpu_random_values():
+    set_seed(42)
+    first_values = torch.rand(5)
+
+    set_seed(42)
+    second_values = torch.rand(5)
+
+    assert torch.equal(first_values, second_values)

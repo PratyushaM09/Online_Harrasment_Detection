@@ -7,6 +7,7 @@ from src.config.settings import (
     PathsConfig,
     ProjectConfig,
     TokenizationConfig,
+    TrainingConfig,
     load_config,
 )
 
@@ -17,5 +18,6 @@ __all__ = [
     "PathsConfig",
     "ProjectConfig",
     "TokenizationConfig",
+    "TrainingConfig",
     "load_config",
 ]
